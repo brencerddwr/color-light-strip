@@ -44,6 +44,8 @@ void setup() {
 
 	// sanity check delay - allows reprogramming if accidently blowing power w/leds
 	delay(2000);
+        pinMode (WHITE_MODE, INPUT_PULLUP);
+        pinMode (BLUE_MODE, INPUT_PULLUP);
 
 	// Change this line as needed to match the LED string type, control chip and color sequence
 	FastLED.addLeds<TM1803, DATA_PIN1, GBR>(leds, 0, NUM_LEDS1); // RadioShack LED String
@@ -73,9 +75,16 @@ void loop()
 	hue = map(sensorValue_hue, 0,1023,0,255);
 	sensorValue_saturation = analogRead(saturation_pot);
 	saturation = map(sensorValue_saturation,0,1023,0,255);
-	/*to do
-	insert if statements for white and blue modes*/
-	FastLED.setBrightness(brightness);
+        int sensorValue_WHITE_MODE = digitalRead(WHITE_MODE);
+        int sensorValue_BLUE_MODE = digitalRead(BLUE_MODE);
+        if (sensorValue_WHITE_MODE == LOW){
+          saturation = 0;
+        }
+        if (sensorValue_BLUE_MODE == LOW) {
+          hue = 160;
+          saturation = 255;
+        }
+        FastLED.setBrightness(brightness);
 	FastLED.showColor(CHSV(hue, saturation, 255));
 
 }
