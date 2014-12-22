@@ -32,7 +32,9 @@ const int saturation_pot = A2;  // Analog input pin that the potentiometer is at
 int sensorValue_saturation = 0;        // value read from the saturation pot
 #define WHITE_MODE 2  // digital input pin for white mode
 #define BLUE_MODE 4  // digital input pin for blue mode
-
+// set color correction and temperature of the strips
+#define color_correction TypicalSMD5050
+#define  color_temperature DirectSunlight
 
 // ***********************************************************************************************************
 // *
@@ -48,14 +50,14 @@ void setup() {
         pinMode (BLUE_MODE, INPUT_PULLUP);
 
 	// Change this line as needed to match the LED string type, control chip and color sequence
-	FastLED.addLeds<TM1803, DATA_PIN1, GBR>(leds, 0, NUM_LEDS1); // RadioShack LED String
-	FastLED.addLeds<TM1803, DATA_PIN2, GBR>(leds, NUM_LEDS1,NUM_LEDS2); //RadioShack LED String
+	FastLED.addLeds<TM1803, DATA_PIN1, GBR>(leds, 0, NUM_LEDS1).setCorrection( color_correction ); // RadioShack LED String
+	FastLED.addLeds<TM1803, DATA_PIN2, GBR>(leds, NUM_LEDS1,NUM_LEDS2).setCorrection( color_correction ); //RadioShack LED String
 	FastLED.setDither(false); //disable FastLED dithering, was causing a flicker at some brightness levels
 
 	// turn off all leds
 	fill_solid ( &(leds[0]),Total_LEDS, CRGB::Black);
 	FastLED.show();
-	delay(1000);
+	delay(500);
 }
 
 // ***********************************************************************************************************
@@ -77,14 +79,18 @@ void loop()
 	saturation = map(sensorValue_saturation,0,1023,0,255);
         int sensorValue_WHITE_MODE = digitalRead(WHITE_MODE);
         int sensorValue_BLUE_MODE = digitalRead(BLUE_MODE);
+        FastLED.setTemperature( color_temperature );
         if (sensorValue_WHITE_MODE == LOW){
           saturation = 0;
         }
         if (sensorValue_BLUE_MODE == LOW) {
-          hue = 160;
-          saturation = 255;
+          fill_solid( &(leds[0]),Total_LEDS,CRGB(0,0,255) ); 
+          FastLED.setBrightness(brightness);
+          FastLED.show();
         }
+        else {
         FastLED.setBrightness(brightness);
 	FastLED.showColor(CHSV(hue, saturation, 255));
+	}
 
 }
