@@ -23,8 +23,8 @@ Your mileage may vary and it is not my fault if your computer ceases to exist, y
 // Data pins that led data will be written out over
 #define DATA_PIN1 10  //pin for 10 segment strip
 #define DATA_PIN2 11  //pin for 8 segment strip
-#define WHITE_MODE 2  // digital input pin for white mode, pulled low to enable
-#define BLUE_MODE 4  // digital input pin for blue mode, pulled low to enable
+#define WHITE_MODE 4  // digital input pin for white mode, pulled low to enable
+#define BLUE_MODE 5  // digital input pin for blue mode, pulled low to enable
 // set color correction and temperature of the strips
 #define color_correction TypicalSMD5050  //FastLED color correction (see color.h for options)
 #define  color_temperature DirectSunlight //FastLED color temperature (see color.h for options)
