@@ -48,7 +48,7 @@ int sensorValue_BLUE_MODE = HIGH;  // initialize and set blue mode high
 // *
 // ***********************************************************************************************************
 void setup() {
-
+	
 	// sanity check delay - allows reprogramming if accidentally blowing power w/leds
 	delay(2000);
 	pinMode (WHITE_MODE, INPUT_PULLUP); //setup data pin for input with internal pull up resistor enabled
@@ -76,7 +76,7 @@ void loop()
 	static uint8_t brightness= 48;  //setup brightness variable
 	static uint8_t saturation = 0;  // setup saturation variable
 	sensorValue_brightness = analogRead(brightness_pot);  //read brightness pot
-	brightness = map(sensorValue_brightness, 0, 1023, 2, 255); // map brightness value
+	brightness = map(sensorValue_brightness, 0, 1023, 0, 255); // map brightness value
 	sensorValue_hue = analogRead(hue_pot);  // read hue pot
 	hue = map(sensorValue_hue, 0,1023,0,255);  //map hue pot
 	sensorValue_saturation = analogRead(saturation_pot);  //read saturation value
