@@ -77,24 +77,30 @@ void loop()
 	static uint8_t saturation = 0;  // setup saturation variable
 	sensorValue_brightness = analogRead(brightness_pot);  //read brightness pot
 	brightness = map(sensorValue_brightness, 0, 1023, 0, 255); // map brightness value
+	if (brightness <10)  // force limit on minimum brightness to deal with red pixels working at lower levels than the others
+	{brightness =10;
+	}
 	sensorValue_hue = analogRead(hue_pot);  // read hue pot
 	hue = map(sensorValue_hue, 0,1023,0,255);  //map hue pot
 	sensorValue_saturation = analogRead(saturation_pot);  //read saturation value
 	saturation = map(sensorValue_saturation,0,1023,0,255);  //map saturation value
-        sensorValue_WHITE_MODE = digitalRead(WHITE_MODE); //check white mode pin
-        sensorValue_BLUE_MODE = digitalRead(BLUE_MODE); //check blue mode pin
-        FastLED.setTemperature( color_temperature );  // set color temperature
-        if (sensorValue_WHITE_MODE == LOW){ //check if white mode is enabled
-          saturation = 0;  //set saturation to 0, any hue will be white 
-        }
-        if (sensorValue_BLUE_MODE == LOW) {  //check if blue mode is enabled
-          fill_solid( &(leds[0]),Total_LEDS,CRGB(0,0,255) ); //set all leds to blue  only
-          FastLED.setBrightness(brightness); // adjust brightness to selected value
-          FastLED.show();
-        }
-        else {
-        FastLED.setBrightness(brightness);
-	FastLED.showColor(CHSV(hue, saturation, 255));
+	if (saturation <75)  // force limit on desaturation to deal with red pixels working at lower levels than the others
+	{ saturation=75;
+	}
+	sensorValue_WHITE_MODE = digitalRead(WHITE_MODE); //check white mode pin
+	sensorValue_BLUE_MODE = digitalRead(BLUE_MODE); //check blue mode pin
+	FastLED.setTemperature( color_temperature );  // set color temperature
+	if (sensorValue_WHITE_MODE == LOW){ //check if white mode is enabled
+		saturation = 0;  //set saturation to 0, any hue will be white
+	}
+	if (sensorValue_BLUE_MODE == LOW) {  //check if blue mode is enabled
+		fill_solid( &(leds[0]),Total_LEDS,CRGB(0,0,255) ); //set all leds to blue  only
+		FastLED.setBrightness(brightness); // adjust brightness to selected value
+		FastLED.show();
+	}
+	else {
+		FastLED.setBrightness(brightness);
+		FastLED.showColor(CHSV(hue, saturation, 255));
 	}
 
 }
