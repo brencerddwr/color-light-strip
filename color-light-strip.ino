@@ -21,8 +21,8 @@ Your mileage may vary and it is not my fault if your computer ceases to exist, y
 #define Total_LEDS  NUM_LEDS1+NUM_LEDS2
 
 // Data pins that led data will be written out over
-#define DATA_PIN1 10  //pin for 10 segment strip
-#define DATA_PIN2 11  //pin for 8 segment strip
+#define DATA_PIN1 11  //pin for 10 segment strip
+#define DATA_PIN2 10  //pin for 8 segment strip
 #define WHITE_MODE 4  // digital input pin for white mode, pulled low to enable
 #define BLUE_MODE 5  // digital input pin for blue mode, pulled low to enable
 // set color correction and temperature of the strips
